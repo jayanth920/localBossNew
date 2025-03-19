@@ -1,0 +1,19 @@
+/* Main homepage container */
+.homepage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    font-family: var(--font-geist-sans);
+    margin: 0 auto;
+}
+
+/* Content text box */
+.homepage-content {
+    width: 25vw;
+    height: fit-content;
+    text-align: left;
+    font-size: 14px; /* Tailwind's text-sm */
+    margin-top: 15vh;
+}
