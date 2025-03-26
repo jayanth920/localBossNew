@@ -14,12 +14,6 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
 
 export default function AuthPage() {
   const [isSignup, setIsSignup] = useState(false);
@@ -63,18 +57,28 @@ export default function AuthPage() {
       alert(error.message);
     }
   };
-  
 
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <Tabs defaultValue="login" className="w-[400px]">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="login" onClick={() => setIsSignup(false)}>Login</TabsTrigger>
-          <TabsTrigger value="signup" onClick={() => setIsSignup(true)}>Sign Up</TabsTrigger>
-        </TabsList>
+      <div className="w-[400px]">
+        {/* Custom Tabs (Login/Signup) */}
+        <div className="flex mb-4">
+          <button
+            className={`w-1/2 p-2 ${!isSignup ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            onClick={() => setIsSignup(false)}
+          >
+            Login
+          </button>
+          <button
+            className={`w-1/2 p-2 ${isSignup ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            onClick={() => setIsSignup(true)}
+          >
+            Sign Up
+          </button>
+        </div>
 
-        {/* Login Tab */}
-        <TabsContent value="login">
+        {/* Login Form */}
+        {!isSignup && (
           <Card>
             <CardHeader>
               <CardTitle>Login</CardTitle>
@@ -83,21 +87,33 @@ export default function AuthPage() {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" onClick={handleAuth}>Login</Button>
+              <Button className="w-full" onClick={handleAuth}>
+                Login
+              </Button>
             </CardFooter>
           </Card>
-        </TabsContent>
+        )}
 
-        {/* Signup Tab */}
-        <TabsContent value="signup">
+        {/* Signup Form */}
+        {isSignup && (
           <Card>
             <CardHeader>
               <CardTitle>Sign Up</CardTitle>
@@ -106,27 +122,49 @@ export default function AuthPage() {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="email-signup">Email</Label>
-                <Input id="email-signup" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input
+                  id="email-signup"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password-signup">Password</Label>
-                <Input id="password-signup" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input
+                  id="password-signup"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" onClick={handleAuth}>Sign Up</Button>
+              <Button className="w-full" onClick={handleAuth}>
+                Sign Up
+              </Button>
             </CardFooter>
           </Card>
-        </TabsContent>
-      </Tabs>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,9 +1,8 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/api/cart/[userId]/route": "app/api/cart/[userId]/route.js",
-  "/(pages)/shop/[id]/page": "app/(pages)/shop/[id]/page.js",
   "/(pages)/login/page": "app/(pages)/login/page.js",
   "/(pages)/home/page": "app/(pages)/home/page.js",
   "/(pages)/shop/page": "app/(pages)/shop/page.js",
-  "/(pages)/cart/page": "app/(pages)/cart/page.js"
+  "/(pages)/cart/page": "app/(pages)/cart/page.js",
+  "/(pages)/shop/[id]/page": "app/(pages)/shop/[id]/page.js"
 }

@@ -9,20 +9,20 @@ import { products } from "@/app/components/products/poducts";
 
 export default function Shop() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("All");  // Default to 'All' instead of an empty string
   const [price, setPrice] = useState([0, 150]);
   const [rating, setRating] = useState(0);
 
   // Filter Products
   const filteredProducts = products.filter((product) => {
     return (
-      product.name.toLowerCase().includes(search.toLowerCase()) ||
-      product.description.toLowerCase().includes(search.toLowerCase())
-    ) &&
-    (category ? product.category === category : true) &&
-    product.price >= price[0] &&
-    product.price <= price[1] &&
-    product.rating >= rating;
+      (product.name.toLowerCase().includes(search.toLowerCase()) ||
+        product.description.toLowerCase().includes(search.toLowerCase())) &&
+      (category === "All" || product.category === category) &&  // Adjust this line to check for "All"
+      product.price >= price[0] &&
+      product.price <= price[1] &&
+      product.rating >= rating
+    );
   });
 
   return (
