@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { use, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -89,9 +90,8 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
   // Check if the item is already in the cart
   useEffect(() => {
-
     checkIfItemInCart();
-  }, [handleAddToCart]);
+  }, [checkIfItemInCart]);
   
 
   const handleAddReview = () => {
@@ -113,10 +113,12 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     <div className="flex flex-col items-center min-h-screen mx-auto w-[80%] mt-[10vh]">
       <div className="flex flex-col md:flex-row gap-8">
         {/* Product Image */}
-        <img
+        <Image
           src={product.image}
           alt={product.name}
           className="w-full md:w-1/2 h-80 object-cover rounded-lg shadow-md"
+          width={20}
+          height={20}
         />
 
         {/* Product Details */}

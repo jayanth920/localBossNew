@@ -19,35 +19,39 @@ export default function CartPage() {
     const fetchCart = async () => {
       try {
         const userString = localStorage.getItem("user");
-
+  
         if (!userString) {
           alert("Please log in first.");
           return;
         }
-
-        const user = JSON.parse(userString); // Now safely parse the user object
-
+  
+        const user = JSON.parse(userString);
+  
         if (!user || !user._id) {
           alert("Please log in first.");
           return;
         }
-
-        // Now you can safely access user._id
+  
         const userId = user._id;
-        if (!userId) return; // Redirect or handle if no userId in local storage
-
+        if (!userId) return; // Handle edge case where userId doesn't exist
+  
         const response = await fetch(`/api/cart/${userId}`);
         if (!response.ok) throw new Error("Failed to fetch cart data");
-
+  
         const data = await response.json();
-        setCart(data);
+  
+        // Ensure that cart is an array before setting it
+        if (data.cart.length > 0) {
+          setCart(data.cart);
+        }
+        
         setLoading(false);
       } catch (error) {
         console.error("Error fetching cart:", error);
         setLoading(false);
       }
     };
-
+  
     fetchCart();
   }, []);
 

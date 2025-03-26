@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { ShimmerButton } from "@/components/magicui/shimmer-button";
+import Image from "next/image";
 
 export function HomePage() {
     const [user, setUser] = useState<any>(null);
@@ -32,10 +33,11 @@ export function HomePage() {
                     {user ? (
                         <div className="relative">
                             <button className="flex items-center gap-2">
-                                <img
+                                <Image
                                     src={user.profilePic || "/default-profile-pic.jpg"}
                                     alt="Profile"
                                     className="w-8 h-8 rounded-full"
+                                    width={20}
                                 />
                                 <span className="text-sm font-semibold">{user.username}</span>
                             </button>

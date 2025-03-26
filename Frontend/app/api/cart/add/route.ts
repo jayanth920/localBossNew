@@ -10,11 +10,12 @@ export async function POST(req: NextRequest) {
 
     if (!user) return NextResponse.json({ message: "User not found" }, { status: 404 });
 
-    let existingItem = user.cart.find((i: any) => i.id === item.id);
+    const existingItem = user.cart.find((i: any) => i.id === item.id);
     if (existingItem) existingItem.quantity += item.quantity;
     else user.cart.push(item);
 
     await user.save();
+    console.log(JSON.stringify(user.cart))
     return NextResponse.json(user.cart);
   } catch (error) {
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });

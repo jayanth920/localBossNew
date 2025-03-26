@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  images: {
+    domains: ['www.example.com'], // Add your external domain here
+  },
 };
 
 export default nextConfig;
