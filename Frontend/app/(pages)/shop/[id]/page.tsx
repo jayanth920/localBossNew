@@ -83,7 +83,6 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
     });
 
     const data = await response.json();
-    console.log(data);
     setIsItemInCart(data.isItemInCart); // Update state based on the API response
   };
 

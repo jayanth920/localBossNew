@@ -1,97 +1,143 @@
 'use client';
-
+import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"; // Import Dialog components
-import { useUser } from "@/app/components/context/userContext";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export default function CartPage() {
-  const { user } = useUser(); // Get user info from context
   const [cart, setCart] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showDialog, setShowDialog] = useState(false);
-  const [itemToRemove, setItemToRemove] = useState<any>(null); // To hold the item to be removed
+  const [itemToRemove, setItemToRemove] = useState<any>(null);
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const userString = localStorage.getItem("user");
-  
-        if (!userString) {
-          alert("Please log in first.");
-          return;
-        }
-  
-        const user = JSON.parse(userString);
-  
-        if (!user || !user._id) {
-          alert("Please log in first.");
-          return;
-        }
-  
-        const userId = user._id;
-        if (!userId) return; // Handle edge case where userId doesn't exist
-  
-        const response = await fetch(`/api/cart/${userId}`);
-        if (!response.ok) throw new Error("Failed to fetch cart data");
-  
-        const data = await response.json();
-  
-        // Ensure that cart is an array before setting it
-        if (data.cart.length > 0) {
-          setCart(data.cart);
-        }
-        
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching cart:", error);
-        setLoading(false);
+  const fetchCart = async () => {
+    try {
+      const userString = localStorage.getItem("user");
+
+      if (!userString) {
+        alert("Please log in first.");
+        return;
       }
-    };
-  
-    fetchCart();
-  }, []);
+
+      const user = JSON.parse(userString);
+
+      if (!user || !user._id) {
+        alert("Please log in first.");
+        return;
+      }
+
+      const userId = user._id;
+      if (!userId) return; // Handle edge case where userId doesn't exist
+
+      const response = await fetch(`/api/cart/${userId}`);
+      if (!response.ok) throw new Error("Failed to fetch cart data");
+
+      const data = await response.json();
+
+      // Ensure that cart is an array before setting it
+      if (data.cart.length > 0) {
+        setCart(data.cart);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+      setLoading(false);
+    }
+  };
 
   const handleCheckout = () => {
     router.push("/checkout"); // Redirect to checkout page
   };
 
-  const handleIncreaseQuantity = async (itemId: number) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.id === itemId && item.quantity < 20
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      )
-    );
+  const handleIncreaseQuantity = async (myItem: any) => {
+
+    const userString = localStorage.getItem("user");
+
+    if (!userString) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const user = JSON.parse(userString); // Now safely parse the user object
+
+    if (!user || !user._id) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const userId = user._id;
+    try {
+      const response = await fetch("/api/cart/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId, item: myItem }), // Sending userId and item to API
+      });
+
+      if (!response.ok) throw new Error("Failed to add item to cart");
+
+      // Optionally, you can show a success message or update the UI
+      console.log("Item Quantity Increased");
+      await fetchCart();
+    } catch (error: any) {
+      alert(error.message);
+    }
+
   };
 
-  const handleDecreaseQuantity = (itemId: number, quantity: number) => {
-    if (quantity === 1) {
-      setItemToRemove(cart.find(item => item.id === itemId));
-      setShowDialog(true); // Show the confirmation dialog
-    } else {
-      setCart((prevCart) =>
-        prevCart.map((item) =>
-          item.id === itemId && item.quantity > 0
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-      );
+  const handleDecreaseQuantity = async (myItem: any, remove: boolean = false) => {
+    const userString = localStorage.getItem("user");
+    if (!userString) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const user = JSON.parse(userString);
+    if (!user || !user._id) {
+      alert("Please log in first.");
+      return;
+    }
+
+    const userId = user._id;
+
+    // If quantity is 1 and `complete` is false, show confirmation
+    if (myItem.quantity === 1 || remove) {
+      setItemToRemove(myItem);
+      setShowDialog(true);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/cart/remove", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, itemId: myItem.id }), // Pass `complete: true` if needed
+      });
+
+      if (!response.ok) throw new Error("Failed to decrease item quantity");
+
+      await fetchCart();
+
+    } catch (error: any) {
+      alert(error.message);
     }
   };
 
+
+
+  useEffect(() => {
+    fetchCart();
+  }, []);
+
   const handleRemoveItem = async () => {
     if (!itemToRemove) return;
-
-    // Remove item from cart
     const updatedCart = cart.filter((item) => item.id !== itemToRemove.id);
     setCart(updatedCart);
-
-    // Perform API call to remove item from server-side cart
     const userString = localStorage.getItem("user");
 
     if (!userString) {
@@ -101,7 +147,7 @@ export default function CartPage() {
     const user = JSON.parse(userString);
     const userId = user._id;
 
-    await fetch(`/api/cart/remove`, {
+    await fetch(`/api/cart/remove-complete`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -133,51 +179,62 @@ export default function CartPage() {
 
       {/* Cart Items */}
       <div>
-  {cart.length === 0 ? (
-    <div>Your cart is empty.</div>
-  ) : (
-    cart.map((item, index) => (
-      <Card key={index} className="mb-4">
-        <CardHeader>
-          <CardTitle>{item.name}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-2">
-            {/* Price */}
-            <p>Price: ${item.price}</p>
+        {cart.length === 0 ? (
+          <div>Your cart is empty.</div>
+        ) : (
+          cart.map((item, index) => (
+            <Card key={index} className="mb-4">
+              <CardHeader>
+                <CardTitle>{item.name}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {/* Price */}
+                  <p>Price: ${item.price}</p>
 
-            {/* Quantity Section */}
-            <div className="flex items-center justify-between gap-4">
-              {/* Decrease Quantity Button */}
-              <Button
-                onClick={() => handleDecreaseQuantity(item.id, item.quantity)}
-                disabled={item.quantity === 0}
-                className="w-12"
-              >
-                -1
-              </Button>
-              
-              {/* Quantity Display */}
-              <p className="text-lg font-semibold">{item.quantity}</p>
-              
-              {/* Increase Quantity Button */}
-              <Button
-                onClick={() => handleIncreaseQuantity(item.id)}
-                disabled={item.quantity === 20}
-                className="w-12"
-              >
-                +1
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          {/* You can add more action buttons here (remove from cart, etc.) */}
-        </CardFooter>
-      </Card>
-    ))
-  )}
-</div>
+                  {/* Quantity Section */}
+                  <div className="flex items-center justify-between gap-4">
+                    {/* Decrease Quantity Button */}
+                    <Button
+                      onClick={() => handleDecreaseQuantity(item)}
+                      disabled={item.quantity === 0}
+                      className="w-12"
+                    >
+                      -1
+                    </Button>
+
+                    {/* Quantity Display */}
+                    <p className="text-lg font-semibold">{item.quantity}</p>
+
+                    {/* Increase Quantity Button */}
+                    <Button
+                      onClick={() => handleIncreaseQuantity(item)}
+                      disabled={item.quantity === 20}
+                      className="w-12"
+                    >
+                      +1
+                    </Button>
+                  </div>
+
+                  {/* Remove Item Button */}
+                  <div className="flex justify-center mt-2">
+                    <Button
+                      variant="destructive"
+                      onClick={() => {
+                        console.log("Remove Item");
+                        handleDecreaseQuantity(item, true)
+                      }} // Pass `complete: true`
+                      className="flex items-center gap-2"
+                    >
+                      <X size={16} /> Remove
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        )}
+      </div>
 
       {/* Confirmation Dialog for Removing Item */}
       {showDialog && (

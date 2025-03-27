@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "../../_lib/mongodb";
 import User from "../../_models/User";
+
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
@@ -9,8 +10,16 @@ export async function POST(req: NextRequest) {
 
     if (!user) return NextResponse.json({ message: "User not found" }, { status: 404 });
 
-    user.cart = user.cart.filter((i: any) => i.id !== itemId);
-    await user.save();
+    const item = user.cart.find((i: any) => i.id === itemId);
+
+    if (item) {
+      if (item.quantity > 1) {
+        item.quantity -= 1; // Decrease quantity by 1
+      } else {
+        user.cart = user.cart.filter((i: any) => i.id !== itemId); // Remove item if quantity is 1
+      }
+      await user.save();
+    }
 
     return NextResponse.json(user.cart);
   } catch (error) {
