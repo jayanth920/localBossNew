@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import User from "@/app/api/_models/User";
 import { connectDB } from "@/app/api/_lib/mongodb";
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   try {
     await connectDB();

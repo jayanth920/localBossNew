@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import User from '@/app/api/_models/User'; // Adjust path as necessary
 import { connectDB } from '@/app/api/_lib/mongodb'; // Adjust path as necessary
 
+export const dynamic = 'force-dynamic'
+
+
 export async function GET(request: NextRequest) {
   try {
     // Connect to the database

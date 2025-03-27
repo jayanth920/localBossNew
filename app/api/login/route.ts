@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import User from "../_models/User";
 import { connectDB } from "../_lib/mongodb";
 
+export const dynamic = 'force-dynamic'
+
 const SECRET_KEY = process.env.SECRET_KEY as string;
 
 export async function POST(req: Request) {
