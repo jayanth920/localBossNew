@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     ]
   },
   images: {
-    domains: ['www.example.com'], // Add your external domain here
+    domains: ['res.cloudinary.com'], // Add your external domain here
   },
 };
 

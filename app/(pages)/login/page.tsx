@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/components/context/userContext";
 import { Button } from "@/components/ui/button";
@@ -21,56 +21,90 @@ export default function AuthPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
+  const [profilePic, setProfilePic] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null); // Preview Image
 
   const router = useRouter();
-  const { setUser } = useUser(); // Context for authentication
+  const { setUser, user } = useUser(); // Context for authentication
 
+    // Redirect if user is already logged in
+    useEffect(() => {
+      if (user || localStorage.getItem("user")) {
+        router.push("/"); // Redirect to home page if logged in
+      }
+    }, [user, router]);
+
+  // Handle image selection
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setProfilePic(file);
+      setPreview(URL.createObjectURL(file)); // Create preview URL
+    }
+  };
+
+  // Handle Signup/Login
   const handleAuth = async () => {
     try {
       const endpoint = isSignup ? "/api/register" : "/api/login";
-      const body = isSignup
-        ? { username, email, password, phone } // Register requires all fields
-        : { email, password }; // Login only requires email & password
+      let body: any;
+  
+      if (isSignup) {
+        // Prepare FormData for signup with profile picture if available
+        body = new FormData();
+        body.append("username", username);
+        body.append("email", email);
+        body.append("password", password);
+        body.append("phone", phone);
+        if (profilePic) body.append("profilePic", profilePic);
+      } else {
+        // Prepare JSON for login
+        body = {
+          email,
+          password,
+        };
+      }
   
       const response = await fetch(endpoint, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body),
+        body: isSignup ? body : JSON.stringify(body),
+        headers: !isSignup ? { "Content-Type": "application/json" } : {},
       });
   
       if (!response.ok) throw new Error(`${isSignup ? "Signup" : "Login"} failed`);
   
       if (isSignup) {
         alert("Signup successful! Please login.");
-        setIsSignup(false); // Switch to login tab after signing up
+        setIsSignup(false); // Switch to login tab after signup
       } else {
         const { token, user } = await response.json();
-        setUser(user); // Update global auth state
+        setUser(user); // Set user context
   
-        // Store the user data in localStorage
-        localStorage.setItem("user", JSON.stringify(user)); // Store user info
-        localStorage.setItem("token", token); // Store JWT token
+        // Store user data and token in localStorage
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
   
-        router.push("/"); // Redirect to home
+        router.push("/"); // Redirect to home page
       }
     } catch (error: any) {
-      alert(error.message);
+      console.error("Error during authentication:", error);
+      alert("Authentication failed. Please check your credentials.");
     }
   };
-
+  
   return (
-    <div className="flex justify-center items-center min-h-screen">
+    <div className="flex justify-center items-center min-h-fit">
       <div className="w-[400px]">
         {/* Custom Tabs (Login/Signup) */}
-        <div className="flex mb-4">
+        <div className="flex h-[40px] justify-center items-center mb-4 bg-gray-200 rounded-[10px]">
           <button
-            className={`w-1/2 p-2 ${!isSignup ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            className={`w-[195px] h-[30px] flex justify-center items-center p-2 rounded-[7px] shadow-[10px] shadow-neutral-600 ${!isSignup ? "bg-white text-black" : "bg-gray-200 text-slate-600"}`}
             onClick={() => setIsSignup(false)}
           >
             Login
           </button>
           <button
-            className={`w-1/2 p-2 ${isSignup ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+            className={`w-[195px] h-[30px] flex justify-center items-center p-2 rounded-[7px] shadow-[10px] shadow-neutral-600 ${isSignup ? "bg-white text-black" : "bg-gray-200 text-slate-600"}`}
             onClick={() => setIsSignup(true)}
           >
             Sign Up
@@ -87,21 +121,11 @@ export default function AuthPage() {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
             </CardContent>
             <CardFooter>
@@ -122,39 +146,28 @@ export default function AuthPage() {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="username">Username</Label>
-                <Input
-                  id="username"
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
+                <Input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="email-signup">Email</Label>
-                <Input
-                  id="email-signup"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <Input id="email-signup" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password-signup">Password</Label>
-                <Input
-                  id="password-signup"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <Input id="password-signup" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="phone">Phone</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                />
+                <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              </div>
+
+              {/* Profile Picture Upload */}
+              <div className="space-y-1">
+                <Label htmlFor="profilePic">Profile Picture</Label>
+                <Input id="profilePic" type="file" accept="image/*" onChange={handleImageChange} />
+                {preview && (
+                  <img src={preview} alt="Profile Preview" className="mt-2 w-24 h-24 rounded-full object-cover" />
+                )}
               </div>
             </CardContent>
             <CardFooter>

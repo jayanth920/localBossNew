@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import User from "../_models/User";
 import { connectDB } from "../_lib/mongodb";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
 const SECRET_KEY = process.env.SECRET_KEY as string;
 
@@ -19,8 +19,11 @@ export async function POST(req: Request) {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return NextResponse.json({ message: "Invalid credentials" }, { status: 400 });
     
+    // Generate JWT token
     const token = jwt.sign({ id: user._id, email: user.email }, SECRET_KEY, { expiresIn: "7d" });
-    return NextResponse.json({ token, user });
+
+    // Return user with profilePic URL
+    return NextResponse.json({ token, user: { ...user.toObject(), profilePic: user.profilePic || "" } });
   } catch (error) {
     return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
