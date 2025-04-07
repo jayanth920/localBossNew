@@ -6,6 +6,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Title } from "../components/Title"
 import { useUser } from "../components/context/userContext"
+
 import {
     Avatar,
     AvatarFallback,
@@ -42,7 +43,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
                 <div className="absolute top-[4vh] left-[90vw]">
                     {user ? (
                         <DropdownMenu>
-                            <DropdownMenuTrigger className="flex justify-between items-center px-4 py-2 rounded-md shadow-lg bg-white border border-gray-300 hover:shadow-xl transition-shadow">
+                            <DropdownMenuTrigger className="flex justify-between items-center px-4 py-2 rounded-md shadow-lg bg-amber-50 border border-gray-300 hover:shadow-xl transition-shadow">
                                 <Avatar>
                                     <AvatarImage src={user.profilePic || "/default-profile-pic.jpg"} alt="Profile" />
                                     <AvatarFallback>CN</AvatarFallback>
@@ -50,7 +51,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
                                 &nbsp;
                                 {user.username}
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent>
+                            <DropdownMenuContent className="bg-amber-50">
                                 <DropdownMenuItem>Profile</DropdownMenuItem>
                                 <DropdownMenuItem>Payment Methods</DropdownMenuItem>
                                 <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem> {/* Logout action */}
@@ -59,7 +60,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
 
                     ) : (
                         <Link href="/login">
-                            <Button variant="outline">Login</Button>
+                            <Button variant="outline" className="bg-amber-50">Login</Button>
                         </Link>
                     )}
                 </div>

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Router } from "next/router";
 
 export default function CartPage() {
   const [cart, setCart] = useState<any[]>([]);
@@ -18,14 +19,15 @@ export default function CartPage() {
       const userString = localStorage.getItem("user");
 
       if (!userString) {
-        alert("Please log in first.");
+        // alert("Please log in first.");
+        router.push("/home");
         return;
       }
 
       const user = JSON.parse(userString);
 
       if (!user || !user._id) {
-        alert("Please log in first.");
+        router.push("/home");
         return;
       }
 
@@ -162,10 +164,10 @@ export default function CartPage() {
     setShowDialog(false); // Close dialog without removing the item
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className="bg-amber-50 mt-[5vh] rounded-lg">Loading...</div>;
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
+    <div className="max-w-4xl mx-auto p-4 bg-amber-50 mt-[5vh] rounded-lg">
       {/* Checkout Button */}
       {cart.length > 0 && (
         <div className="flex items-center justify-end mb-4 space-x-4">

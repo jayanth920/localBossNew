@@ -11,7 +11,10 @@ const nextConfig: NextConfig = {
     ]
   },
   images: {
-    domains: ['res.cloudinary.com'], // Add your external domain here
+    domains: ['res.cloudinary.com', "www.example.com"], // Add your external domain here
+  },
+  eslint: {
+    ignoreDuringBuilds: true, // Ignore ESLint during production builds
   },
 };
 

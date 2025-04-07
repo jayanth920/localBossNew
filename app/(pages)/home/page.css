@@ -1,8 +1,8 @@
 .maintext {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
-    border:1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 32px 32px 32px rgba(0, 0, 0, 0.37);
+    padding: 10px; /* To give space around the text */
+    background-color: rgba(58, 58, 58, 0.5); /* Slight dark background for readability */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add a subtle shadow to the text */
 }

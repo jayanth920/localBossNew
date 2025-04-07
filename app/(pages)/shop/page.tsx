@@ -26,49 +26,49 @@ export default function Shop() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen mx-auto w-[90%] mt-[10vh]">
+    <div className="flex flex-col items-center justify-start min-h-screen mx-auto w-[90%] mt-[15vh]">
       {/* Search & Filters */}
       <div className="flex items-center justify-center gap-4 w-full mb-8 min-w-[800px]">
         <Input
           type="text"
           placeholder="Search products..."
-          className="w-64"
+          className="w-64 bg-amber-50 text-black"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
 
         <Select onValueChange={(value) => setCategory(value)} value={category}>
-          <SelectTrigger className="w-44">
+          <SelectTrigger className="w-44 bg-amber-50 text-black">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="All">All Categories</SelectItem>
-            <SelectItem value="Groceries">Groceries</SelectItem>
-            <SelectItem value="Electronics">Electronics</SelectItem>
+            <SelectItem value="All" className="bg-amber-50">All Categories</SelectItem>
+            <SelectItem value="Groceries" className="bg-amber-50">Groceries</SelectItem>
+            <SelectItem value="Electronics" className="bg-amber-50">Electronics</SelectItem>
           </SelectContent>
         </Select>
 
         <div className="flex flex-col items-center">
-          <span className="text-sm">Price: ${price[0]} - ${price[1]}</span>
+          <span className="text-sm font-medium text-black mb-1 bg-amber-50 min-w-[120px] text-center rounded-md">Price: ${price[0]} - ${price[1]}</span>
           <Slider
             value={price}
             onValueChange={(val) => setPrice(val)}
             min={0}
             max={150}
             step={1}
-            className="w-40"
+            className="w-40 bg-amber-50"
           />
         </div>
 
         <div className="flex flex-col items-center">
-          <span className="text-sm">Min Rating: {rating}★</span>
+          <span className="text-sm font-medium text-black mb-1 bg-amber-50 min-w-[120px] text-center rounded-md">Min Rating: {rating}★</span>
           <Slider
             value={[rating]}
             onValueChange={(val) => setRating(val[0])}
             min={0}
             max={5}
             step={0.5}
-            className="w-40"
+            className="w-40 bg-amber-50"
           />
         </div>
       </div>
@@ -78,7 +78,7 @@ export default function Shop() {
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <Link key={product.id} href={`/shop/${product.id}`} className="cursor-pointer">
-              <div className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition-all">
+              <div className="border p-4 rounded-lg shadow-mdhover:shadow-xl transition-all bg-amber-50">
                 <img src={product.image} alt={product.name} className="w-full h-40 object-cover rounded-md mb-3" />
                 <h2 className="text-lg font-semibold">{product.name}</h2>
                 <p className="text-sm text-gray-600">{product.description}</p>
