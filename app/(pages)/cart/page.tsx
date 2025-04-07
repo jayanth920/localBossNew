@@ -19,7 +19,7 @@ export default function CartPage() {
       const userString = localStorage.getItem("user");
 
       if (!userString) {
-        // alert("Please log in first.");
+        alert("Please log in first.");
         router.push("/home");
         return;
       }
@@ -27,6 +27,7 @@ export default function CartPage() {
       const user = JSON.parse(userString);
 
       if (!user || !user._id) {
+        alert("Please log in first.");
         router.push("/home");
         return;
       }
