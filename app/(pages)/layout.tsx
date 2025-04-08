@@ -46,7 +46,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
                             <DropdownMenuTrigger className="flex justify-between items-center px-4 py-2 rounded-md shadow-lg bg-amber-50 border border-gray-300 hover:shadow-xl transition-shadow">
                                 <Avatar>
                                     <AvatarImage src={user.profilePic || "/default-profile-pic.jpg"} alt="Profile" />
-                                    <AvatarFallback>CN</AvatarFallback>
+                                    <AvatarFallback></AvatarFallback>
                                 </Avatar>
                                 &nbsp;
                                 {user.username}
