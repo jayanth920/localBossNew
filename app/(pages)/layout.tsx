@@ -52,7 +52,9 @@ export default function Layout({ children }: React.PropsWithChildren) {
                                 {user.username}
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="bg-amber-50">
-                                <DropdownMenuItem>Profile</DropdownMenuItem>
+                                <DropdownMenuItem asChild>
+                                    <Link href="/profile">Profile</Link>
+                                </DropdownMenuItem>
                                 <DropdownMenuItem>Payment Methods</DropdownMenuItem>
                                 <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem> {/* Logout action */}
                             </DropdownMenuContent>
