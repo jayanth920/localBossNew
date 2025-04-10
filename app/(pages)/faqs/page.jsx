@@ -10,8 +10,8 @@ export default function Faqs() {
     <div className="w-screen max-w-4xl p-4 bg-amber-50 mt-[5vh] rounded-lg shadow-md">
       <h1 className="text-3xl font-bold mb-6 text-center">Frequently Asked Questions</h1>
 
-      <Accordion type="multiple" collapsible className="w-full">
-        <AccordionItem value="item-1">
+      <Accordion type="multiple" collapsible="true" className="w-full">
+      <AccordionItem value="item-1">
           <AccordionTrigger className="text-xl font-semibold">📦 What kind of products can I buy on LocalBoss?</AccordionTrigger>
           <AccordionContent className="text-gray-800">
             You can buy groceries, food, beverages, electronics, and other daily essentials—all from local businesses in your area.
