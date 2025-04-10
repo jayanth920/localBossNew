@@ -20,9 +20,17 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useEffect, useState } from "react"
 
 export default function Layout({ children }: React.PropsWithChildren) {
     const { user, logout, setUser } = useUser(); // Accessing the context
+    const [imageSrc, setImageSrc] = useState("/images/profile-user.png");
+
+    useEffect(() => {
+        if (user?.profilePic && user.profilePic.trim() !== "") {
+            setImageSrc(user.profilePic);
+        }
+    }, [user]);
 
     // Handle logout functionality
     const handleLogout = () => {
@@ -45,8 +53,12 @@ export default function Layout({ children }: React.PropsWithChildren) {
                         <DropdownMenu>
                             <DropdownMenuTrigger className="flex justify-between items-center px-4 py-2 rounded-md shadow-lg bg-amber-50 border border-gray-300 hover:shadow-xl transition-shadow">
                                 <Avatar>
-                                    <AvatarImage src={user.profilePic || "/default-profile-pic.jpg"} alt="Profile" />
-                                    <AvatarFallback></AvatarFallback>
+                                    <AvatarImage
+                                        src={imageSrc}
+                                        onError={() => setImageSrc("/images/profile-user.png")}
+                                        alt="Profile"
+                                    />
+                                    <AvatarFallback />
                                 </Avatar>
                                 &nbsp;
                                 {user.username}

@@ -25,14 +25,14 @@ export default function AuthPage() {
   const [preview, setPreview] = useState<string | null>(null); // Preview Image
 
   const router = useRouter();
-  const { setUser, user } = useUser(); // Context for authentication
+  const { setUser, user, setSyncUser } = useUser(); // Context for authentication
 
-    // Redirect if user is already logged in
-    useEffect(() => {
-      if (user || localStorage.getItem("user")) {
-        router.push("/"); // Redirect to home page if logged in
-      }
-    }, [user, router]);
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user || localStorage.getItem("user")) {
+      router.push("/"); // Redirect to home page if logged in
+    }
+  }, [user, router]);
 
   // Handle image selection
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +48,7 @@ export default function AuthPage() {
     try {
       const endpoint = isSignup ? "/api/register" : "/api/login";
       let body: any;
-  
+
       if (isSignup) {
         // Prepare FormData for signup with profile picture if available
         body = new FormData();
@@ -64,26 +64,23 @@ export default function AuthPage() {
           password,
         };
       }
-  
+
       const response = await fetch(endpoint, {
         method: "POST",
         body: isSignup ? body : JSON.stringify(body),
         headers: !isSignup ? { "Content-Type": "application/json" } : {},
       });
-  
+
       if (!response.ok) throw new Error(`${isSignup ? "Signup" : "Login"} failed`);
-  
+
       if (isSignup) {
         alert("Signup successful! Please login.");
         setIsSignup(false); // Switch to login tab after signup
       } else {
         const { token, user } = await response.json();
-        setUser(user); // Set user context
-  
-        // Store user data and token in localStorage
-        localStorage.setItem("user", JSON.stringify(user));
+        setSyncUser(user);
         localStorage.setItem("token", token);
-  
+
         router.push("/"); // Redirect to home page
       }
     } catch (error: any) {
@@ -91,7 +88,7 @@ export default function AuthPage() {
       alert("Authentication failed. Please check your credentials.");
     }
   };
-  
+
   return (
     <div className="flex justify-center items-center min-h-fit">
       <div className="w-[400px] mt-5">
