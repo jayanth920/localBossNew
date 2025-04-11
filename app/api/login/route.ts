@@ -11,8 +11,8 @@ const SECRET_KEY = process.env.SECRET_KEY as string;
 export async function POST(req: Request) {
   try {
     await connectDB();
-    const { email, password } = await req.json();
-    const user = await User.findOne({ email });
+    const { username, password } = await req.json();
+    const user = await User.findOne({ username });
 
     if (!user) return NextResponse.json({ message: "Invalid credentials" }, { status: 400 });
     

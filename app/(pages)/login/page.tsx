@@ -60,7 +60,7 @@ export default function AuthPage() {
       } else {
         // Prepare JSON for login
         body = {
-          email,
+          username,
           password,
         };
       }
@@ -117,8 +117,8 @@ export default function AuthPage() {
             </CardHeader>
             <CardContent className="space-y-2">
               <div className="space-y-1">
-                <Label htmlFor="email">Email</Label>
-                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Label htmlFor="username">Username</Label>
+                <Input id="username" type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password">Password</Label>

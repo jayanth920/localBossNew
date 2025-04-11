@@ -17,8 +17,8 @@ export default function ProfilePage() {
     const [profilePic, setProfilePic] = useState<string | '' | null>(null)
     const [password, setPassword] = useState<string>('')
     const [phone, setPhone] = useState<string>('')
-    const [username, setUsername] = useState<string>('') 
-    const [usernameStatus, setUsernameStatus] = useState<string>('') 
+    const [username, setUsername] = useState<string>('')
+    const [usernameStatus, setUsernameStatus] = useState<string>('')
     const [isSaving, setIsSaving] = useState(false)
 
     // Load initial user data
@@ -82,7 +82,7 @@ export default function ProfilePage() {
             username,
         };
 
-        console.log(data)
+        console.log("data: ", data)
 
         try {
             const response = await fetch('/api/user/profile', {
@@ -127,6 +127,11 @@ export default function ProfilePage() {
             reader.readAsDataURL(file) // Read the file as a data URL
         }
         console.log(profilePic)
+    }
+
+    // Handle Close functionality (Go back to previous page)
+    const handleClose = () => {
+        router.back() // Go back to the previous page in the browser history
     }
 
     return (
@@ -208,16 +213,25 @@ export default function ProfilePage() {
                 />
             </div>
 
-            {/* Save Button */}
-            <div className="text-center">
+            {/* Save Button & Close Button */}
+            <div className="text-center flex justify-center items-center gap-2">
                 <Button
-                    className="px-8 py-2 text-lg rounded-xl bg-amber-400 hover:bg-amber-500"
+                    className="px-8 py-2 text-lg rounded-xl bg-emerald-400 hover:bg-emerald-600"
                     onClick={handleSave}
                     disabled={isSaving || usernameStatus === 'Checking...'} // Disable while saving or checking
-                    >
+                >
                     {isSaving ? 'Saving...' : 'Save'}
                 </Button>
+
+                <Button
+                    variant="outline"
+                    className="px-8 py-2 text-lg rounded-xl bg-red-500 hover:bg-red-600 text-amber-50"
+                    onClick={handleClose}
+                >
+                    Close
+                </Button>
             </div>
+
         </div>
     )
 }
