@@ -8,10 +8,26 @@ const nextConfig: NextConfig = {
         destination: '/home',
         permanent: true,
       },
-    ]
+    ];
   },
   images: {
-    domains: ['res.cloudinary.com', "www.example.com"], // Add your external domain here
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.example.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+        pathname: '**',
+      },
+    ],
   },
   eslint: {
     ignoreDuringBuilds: true, // Ignore ESLint during production builds

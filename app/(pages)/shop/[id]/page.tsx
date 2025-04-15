@@ -123,8 +123,8 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
           src={product.image}
           alt={product.name}
           className="w-full md:w-1/2 h-80 object-cover rounded-lg shadow-lg"
-          width={20}
-          height={20}
+          width={600}
+          height={320}
         />
 
         {/* Product Details */}

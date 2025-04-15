@@ -41,7 +41,7 @@ export default function ProfilePage() {
             return
         }
 
-        setUsernameStatus('Checking...')
+        // setUsernameStatus('Checking...')
 
         try {
             const response = await fetch(`/api/user/check-username?username=${username}`)
@@ -65,7 +65,7 @@ export default function ProfilePage() {
 
         window.usernameTimeout = setTimeout(() => {
             checkUsernameAvailability(e.target.value)
-        }, 1000) as any // 1 second debounce
+        }, 500) as any // 1 second debounce
     }
 
     // Handle Save functionality
