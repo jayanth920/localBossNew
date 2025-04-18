@@ -136,7 +136,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
 
           {/* Buttons */}
           <div className="flex gap-4 mt-6">
-            <Button className="bg-blue-500 text-white px-4 py-2 rounded-md">Buy Now</Button>
+            {/* <Button className="bg-blue-500 text-white px-4 py-2 rounded-md">Buy Now</Button> */}
             <Button
               className={`bg-green-500 text-white px-4 py-2 rounded-md ${isItemInCart ? 'bg-gray-500 cursor-not-allowed' : ''}`} // Apply styles when item is in cart
               onClick={handleAddToCart}

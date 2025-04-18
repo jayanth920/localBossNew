@@ -50,10 +50,10 @@ export default function Layout({ children }: React.PropsWithChildren) {
         <>
             <Menu />
             <div className="flex flex-col items-center justify-start min-h-screen font-[family-name:var(--font-geist-sans)] mx-auto border-gray-200">
-                <div className="absolute top-[4vh] left-[90vw]">
+                <div className="absolute md:top-[4vh] top-[0vh] md:left-[85vw] left-[75vw]">
                     {user ? (
                         <DropdownMenu>
-                            <DropdownMenuTrigger className="flex justify-between items-center px-4 py-2 rounded-md shadow-lg bg-amber-50 border border-gray-300 hover:shadow-xl transition-shadow">
+                            <DropdownMenuTrigger className="flex justify-between items-center md:px-4 md:py-2 px-1 py-0 md:static absolute top-[1vh] left-[1vw] rounded-md shadow-lg bg-amber-50 border border-gray-300 hover:shadow-xl transition-shadow">
                                 <Avatar>
                                     <AvatarImage
                                         src={imageSrc ? imageSrc : "/images/profile-user.png"}
@@ -61,7 +61,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
                                     />
                                 </Avatar>
                                 &nbsp;
-                                {user.username}
+                                {user.username.length > 1 ? `${user.username.slice(0, 1)}...` : user.username}
                             </DropdownMenuTrigger>
                             <DropdownMenuContent className="bg-amber-50">
                                 <DropdownMenuItem asChild>
@@ -73,9 +73,11 @@ export default function Layout({ children }: React.PropsWithChildren) {
                         </DropdownMenu>
 
                     ) : (
+                        <div className="absolute left-[2vw] top-[1vh] md:static">
                         <Link href="/login">
                             <Button variant="outline" className="bg-amber-50">Login</Button>
                         </Link>
+                        </div>
                     )}
                 </div>
                 <Link href="/home">
