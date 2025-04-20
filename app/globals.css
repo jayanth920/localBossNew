@@ -122,7 +122,6 @@
     min-height: 100dvh;
     position: relative;
     overflow-x: hidden;
-    background-image: url('/images/background11.jpg');
   }
 
   body::after {
@@ -136,8 +135,8 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: -1;
-    will-change: transform;
+    z-index: 1; /* lower than anything else */
+    pointer-events: none;
   }
 }
 
