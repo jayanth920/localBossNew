@@ -129,6 +129,13 @@
   }
 }
 
+/* Override for iOS Safari or small screens */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll; /* prevent weird zooming */
+  }
+}
+
 html, body {
   overscroll-behavior: none;
   overflow-x: hidden;
