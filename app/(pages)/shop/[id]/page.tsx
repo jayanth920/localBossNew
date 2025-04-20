@@ -91,7 +91,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   useEffect(() => {
     checkIfItemInCart();
   }, []);
-  
+
 
   const handleAddReview = () => {
     const userString = localStorage.getItem("user");
@@ -100,7 +100,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
       alert("Please log in first.");
       return;
     }
-    
+
     if (!reviewText.trim()) return;
 
     const newReview = {
@@ -116,7 +116,7 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   if (!product) return notFound(); // Handle 404 if product doesn't exist
 
   return (
-    <div className="flex flex-col items-center min-h-screen mx-auto w-[80%] mt-[5vh] bg-amber-50 rounded-2xl p-20">
+    <div className="mt-[20vh] max-w-4xl mx-[10vw] md:mx-auto p-4 bg-amber-50 sm:mt-[5vh] mb-[5vh] md:mb-0 rounded-2xl shadow-md flex flex-col items-center min-h-screen">
       <div className="flex flex-col md:flex-row gap-8">
         {/* Product Image */}
         <Image

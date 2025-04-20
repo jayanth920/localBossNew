@@ -117,14 +117,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html,
   body {
-    /* @apply bg-background text-foreground;
-     */
-     background-image: url('/images/background11.jpg');
-     background-size: cover;
-     background-repeat: no-repeat;
-     background-position: center;
-     background-attachment: fixed;
+    @apply bg-background text-foreground;
+    background-image: url('/images/background11.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100dvh; /* Use dynamic vh unit */
   }
 }
 
