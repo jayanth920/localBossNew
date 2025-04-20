@@ -64,7 +64,7 @@ export default function Shop() {
               min={0}
               max={150}
               step={1}
-              className="w-full sm:w-40 bg-amber-50"
+              className="w-full sm:w-40 bg-black rounded-2xl"
             />
           </div>
 
@@ -78,7 +78,7 @@ export default function Shop() {
               min={0}
               max={5}
               step={0.5}
-              className="w-full sm:w-40 bg-amber-50"
+              className="w-full sm:w-40 bg-black rounded-2xl"
             />
           </div>
         </div>
