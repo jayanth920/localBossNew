@@ -26,52 +26,64 @@ export default function Shop() {
   });
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen mx-auto w-[90%] mt-[15vh]">
+    <div className="flex flex-col items-center justify-start min-h-screen mx-auto w-[80vw] md:w-[90%] mt-[20vh] md:mt-[15vh] mb-[10vh] md:mb-0">
       {/* Search & Filters */}
-      <div className="flex items-center justify-center gap-4 w-full mb-8 min-w-[800px]">
-        <Input
-          type="text"
-          placeholder="Search products..."
-          className="w-64 bg-amber-50 text-black"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+      <div className="flex flex-col gap-4 mb-8 md:flex-row md:items-center md:justify-center md:min-w-[600px]">
 
-        <Select onValueChange={(value) => setCategory(value)} value={category}>
-          <SelectTrigger className="w-44 bg-amber-50 text-black">
-            <SelectValue placeholder="Category" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="All" className="bg-amber-50">All Categories</SelectItem>
-            <SelectItem value="Groceries" className="bg-amber-50">Groceries</SelectItem>
-            <SelectItem value="Electronics" className="bg-amber-50">Electronics</SelectItem>
-          </SelectContent>
-        </Select>
-
-        <div className="flex flex-col items-center">
-          <span className="text-sm font-medium text-black mb-1 bg-amber-50 min-w-[120px] text-center rounded-md">Price: ${price[0]} - ${price[1]}</span>
-          <Slider
-            value={price}
-            onValueChange={(val) => setPrice(val)}
-            min={0}
-            max={150}
-            step={1}
-            className="w-40 bg-amber-50"
+        {/* Row 1: Search + Category */}
+        <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+          <Input
+            type="text"
+            placeholder="Search products..."
+            className="w-full sm:w-64 bg-amber-50 text-black"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
+
+          <Select onValueChange={(value) => setCategory(value)} value={category}>
+            <SelectTrigger className="w-full sm:w-44 bg-amber-50 text-black">
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="All" className="bg-amber-50">All Categories</SelectItem>
+              <SelectItem value="Groceries" className="bg-amber-50">Groceries</SelectItem>
+              <SelectItem value="Electronics" className="bg-amber-50">Electronics</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        <div className="flex flex-col items-center">
-          <span className="text-sm font-medium text-black mb-1 bg-amber-50 min-w-[120px] text-center rounded-md">Min Rating: {rating}★</span>
-          <Slider
-            value={[rating]}
-            onValueChange={(val) => setRating(val[0])}
-            min={0}
-            max={5}
-            step={0.5}
-            className="w-40 bg-amber-50"
-          />
+        {/* Row 2: Price + Rating */}
+        <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
+          <div className="flex flex-col items-center">
+            <span className="text-sm font-medium text-black mb-1 bg-amber-50 min-w-[120px] text-center rounded-md">
+              Price: ${price[0]} - ${price[1]}
+            </span>
+            <Slider
+              value={price}
+              onValueChange={(val) => setPrice(val)}
+              min={0}
+              max={150}
+              step={1}
+              className="w-full sm:w-40 bg-black rounded-2xl"
+            />
+          </div>
+
+          <div className="flex flex-col items-center">
+            <span className="text-sm font-medium text-black mb-1 bg-amber-50 min-w-[120px] text-center rounded-md">
+              Min Rating: {rating}★
+            </span>
+            <Slider
+              value={[rating]}
+              onValueChange={(val) => setRating(val[0])}
+              min={0}
+              max={5}
+              step={0.5}
+              className="w-full sm:w-40 bg-black rounded-2xl"
+            />
+          </div>
         </div>
       </div>
+
 
       {/* Product List */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">

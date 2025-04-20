@@ -135,7 +135,7 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 rounded-2xl bg-white shadow-md border border-gray-200 space-y-8">
+        <div className="mt-[20vh] sm:mt-[5vh] mb-[5vh] md:mb-0 mx-[10vw] md:mx-auto max-w-xl p-6 rounded-2xl bg-white shadow-md border border-gray-200 space-y-8">
             {/* Profile Picture */}
             <div className="flex flex-col items-center space-y-4">
                 <div className="relative w-32 h-32 rounded-full overflow-hidden">

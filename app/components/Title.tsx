@@ -8,7 +8,7 @@ export function Title() {
     const theme = useTheme();
     const shadowColor = theme.resolvedTheme === "dark" ? "white" : "black";
     return (
-        <h1 className="text-5xl text-black font-semibold leading-none tracking-tighter bg-amber-50 mx-5 text-center rounded-2xl w-[32vw] sm:text-1xl md:text-7xl lg:text-8xl">
+        <h1 className="text-5xl text-black font-semibold leading-none text-center tracking-tighter absolute top-[10vh] right-[19vw] sm:static bg-amber-50 mx-1 sm:mx-5 md:text-center rounded-md sm:rounded-2xl w-[60vw] sm:w-[32vw] md:text-5xl lg:text-8xl">
             Local
             <AuroraText>
                 Boss
