@@ -50,7 +50,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
         <>
             <Menu />
             <div className="flex flex-col items-center justify-start min-h-screen font-[family-name:var(--font-geist-sans)] mx-auto border-gray-200">
-                <div className="absolute md:top-[4vh] top-[0vh] md:left-[85vw] left-[75vw]">
+                <div className="absolute md:top-[4vh] top-[2vh] left-[80vw] md:left-[85vw]">
                     {user ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger className="flex justify-between items-center md:px-4 md:py-2 px-1 py-0 md:static absolute top-[1vh] left-[1vw] rounded-md shadow-lg bg-amber-50 border border-gray-300 hover:shadow-xl transition-shadow">
@@ -67,7 +67,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
                                 <DropdownMenuItem asChild>
                                     <Link href="/profile">Profile</Link>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>Payment Methods</DropdownMenuItem>
+                                {/* <DropdownMenuItem>Payment Methods</DropdownMenuItem> */}
                                 <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem> {/* Logout action */}
                             </DropdownMenuContent>
                         </DropdownMenu>

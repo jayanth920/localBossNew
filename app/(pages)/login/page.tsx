@@ -91,7 +91,7 @@ export default function AuthPage() {
 
   return (
     <div className="flex justify-center items-center min-h-fit">
-      <div className="w-[400px] mt-5">
+      <div className="w-[80vw] mx-[10vw] md:mx-0 md:w-[400px] mt-[20vh] md:mt-5">
         {/* Custom Tabs (Login/Signup) */}
         <div className="flex h-[40px] justify-center items-center mb-4 bg-gray-200 rounded-[10px]">
           <button
