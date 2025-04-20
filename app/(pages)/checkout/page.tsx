@@ -64,44 +64,50 @@ export default function CheckoutPage() {
 
   // Handle the place order action
   const handlePlaceOrder = async () => {
+    if (!paymentMethod) {
+      alert('Please choose a payment method');
+      return;
+    }
+  
+    if (cart.length === 0) {
+      alert('Your cart is empty. Please add items before placing an order.');
+      return;
+    }
+  
     try {
       const userString = localStorage.getItem('user');
       if (!userString) {
         alert('Please log in first.');
         return;
       }
-
+  
       const user = JSON.parse(userString);
       const userId = user._id;
-
-      // Perform checkout by calling the /checkout API
+  
       const response = await fetch('/api/cart/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId }), // Send userId for order processing
+        body: JSON.stringify({ userId }),
       });
-
+  
       const data = await response.json();
-      // console.log(data)
-
+  
       if (!response.ok) {
         throw new Error(data.message || 'Failed to place order');
       }
-
-      // After placing the order, clear the cart and show a success message
+  
       setCart([]);
       setTotal(0);
-
       alert('Order placed successfully!');
-      router.push('/shop'); // Redirect to order confirmation page or homepage
+      router.push('/shop');
     } catch (error) {
       console.error('Error placing order:', error);
       alert('An error occurred while placing the order.');
     }
   };
-
+  
   // Handle payment method selection
   const handlePaymentChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setPaymentMethod(e.target.value);
