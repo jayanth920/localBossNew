@@ -368,7 +368,7 @@ export default function CheckoutPage() {
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    {item.name} x {item.quantity} = ${item.price * item.quantity}
+                  {item.name} x {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
               </CardContent>
