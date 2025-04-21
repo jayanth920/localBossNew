@@ -13,10 +13,12 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen font-[family-name:var(--font-geist-sans)] mx-auto border-gray-200 md:mt-0 mt-[5vh]">
       <div className="w-auto md:w-[40vw] h-fit text-center text-amber-50 text-[20px] mt-[15vh] mb-[10vh] p-5 maintext">
-        <b>At <b>LocalBoss</b>, we bring the freshest groceries straight to your doorstep.
-          From farm-fresh vegetables and juicy fruits to daily essentials, snacks, and beverages,
-          we make sure you get the best quality at unbeatable prices.
+        <b>
+          At <b>LocalBoss</b>, we deliver more than just groceries — we bring your entire neighborhood market to your doorstep.
+          From farm-fresh produce and daily essentials to home & kitchen must-haves, beauty products, and electronics,
+          we’ve got everything you need, all in one place, at unbeatable prices.
         </b>
+
       </div>
 
       <Link href="/shop">

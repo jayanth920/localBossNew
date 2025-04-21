@@ -176,3 +176,36 @@ html, body {
     }
   }
 }
+
+/* === Shimmer Effect === */
+.shimmer-wrapper {
+  position: relative;
+  background-color: #f6f7f8;
+  overflow: hidden;
+}
+
+/* Animated shimmering layer */
+.shimmer {
+  position: absolute;
+  top: 0;
+  left: -150%;
+  height: 100%;
+  width: 150%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer-move 1.5s infinite;
+}
+
+/* Keyframes (renamed to avoid conflicts) */
+@keyframes shimmer-move {
+  0% {
+    left: -150%;
+  }
+  100% {
+    left: 100%;
+  }
+}

@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import NeumorphButton from "@/components/cultui/neumorph-button";
+import { Loader2 } from "lucide-react";
 
 export default function AuthPage() {
   const [isSignup, setIsSignup] = useState(false);
@@ -23,6 +25,8 @@ export default function AuthPage() {
   const [phone, setPhone] = useState("");
   const [profilePic, setProfilePic] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null); // Preview Image
+  const [loading, setLoading] = useState(false);
+
 
   const router = useRouter();
   const { setUser, user, setSyncUser } = useUser(); // Context for authentication
@@ -45,12 +49,12 @@ export default function AuthPage() {
 
   // Handle Signup/Login
   const handleAuth = async () => {
+    setLoading(true);
     try {
       const endpoint = isSignup ? "/api/register" : "/api/login";
       let body: any;
 
       if (isSignup) {
-        // Prepare FormData for signup with profile picture if available
         body = new FormData();
         body.append("username", username);
         body.append("email", email);
@@ -58,11 +62,7 @@ export default function AuthPage() {
         body.append("phone", phone);
         if (profilePic) body.append("profilePic", profilePic);
       } else {
-        // Prepare JSON for login
-        body = {
-          username,
-          password,
-        };
+        body = { username, password };
       }
 
       const response = await fetch(endpoint, {
@@ -75,19 +75,21 @@ export default function AuthPage() {
 
       if (isSignup) {
         alert("Signup successful! Please login.");
-        setIsSignup(false); // Switch to login tab after signup
+        setIsSignup(false);
       } else {
         const { token, user } = await response.json();
         setSyncUser(user);
         localStorage.setItem("token", token);
-
-        router.push("/"); // Redirect to home page
+        router.push("/");
       }
     } catch (error: any) {
       console.error("Error during authentication:", error);
       alert("Authentication failed. Please check your credentials.");
+    } finally {
+      setLoading(false);
     }
   };
+
 
   return (
     <div className="flex justify-center items-center min-h-fit">
@@ -126,9 +128,12 @@ export default function AuthPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" onClick={handleAuth}>
-                Login
-              </Button>
+            <NeumorphButton className="w-full" onClick={handleAuth} disabled={loading}>
+  <div className="flex items-center justify-center gap-3">
+    <span>Login</span>
+    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" strokeWidth={2} />}
+  </div>
+</NeumorphButton>
             </CardFooter>
           </Card>
         )}
@@ -168,9 +173,12 @@ export default function AuthPage() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full" onClick={handleAuth}>
-                Sign Up
-              </Button>
+            <NeumorphButton className="w-full" onClick={handleAuth} disabled={loading}>
+  <div className="flex items-center justify-center gap-3">
+    <span>Sign Up</span>
+    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" strokeWidth={2} />}
+  </div>
+</NeumorphButton>
             </CardFooter>
           </Card>
         )}

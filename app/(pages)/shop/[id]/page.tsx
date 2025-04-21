@@ -1,10 +1,11 @@
 'use client';
-import { products } from "@/app/components/products/poducts";
-import { notFound } from "next/navigation";
-import { use, useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
+import { notFound } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { use, useState, useEffect } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { shimmer, toBase64 } from "@/components/shimmer";
+import { products } from "@/app/components/products/poducts";
 
 export default function ProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -13,8 +14,6 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
   const [isItemInCart, setIsItemInCart] = useState(false);
   const [reviewText, setReviewText] = useState("");
   const [reviews, setReviews] = useState<any>(product?.reviews || []);
-
-
 
   // Handle Add to Cart
   const handleAddToCart = async () => {
@@ -125,7 +124,8 @@ export default function ProductPage({ params }: { params: Promise<{ id: string }
           className="w-full md:w-1/2 h-80 object-cover rounded-lg shadow-lg"
           width={600}
           height={320}
-        />
+          placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(600, 320))}`} // Shimmer placeholder
+          />
 
         {/* Product Details */}
         <div className="flex flex-col">

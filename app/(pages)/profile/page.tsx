@@ -65,7 +65,7 @@ export default function ProfilePage() {
 
         window.usernameTimeout = setTimeout(() => {
             checkUsernameAvailability(e.target.value)
-        }, 500) as any // 1 second debounce
+        }, 100) as any // 1 second debounce
     }
 
     // Handle Save functionality
