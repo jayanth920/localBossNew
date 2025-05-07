@@ -27,7 +27,6 @@ export default function AuthPage() {
   const [preview, setPreview] = useState<string | null>(null); // Preview Image
   const [loading, setLoading] = useState(false);
 
-
   const router = useRouter();
   const { setUser, user, setSyncUser } = useUser(); // Context for authentication
 
@@ -71,7 +70,8 @@ export default function AuthPage() {
         headers: !isSignup ? { "Content-Type": "application/json" } : {},
       });
 
-      if (!response.ok) throw new Error(`${isSignup ? "Signup" : "Login"} failed`);
+      if (!response.ok)
+        throw new Error(`${isSignup ? "Signup" : "Login"} failed`);
 
       if (isSignup) {
         alert("Signup successful! Please login.");
@@ -90,20 +90,42 @@ export default function AuthPage() {
     }
   };
 
-
   return (
-    <div className="flex justify-center items-center min-h-fit">
-      <div className="w-[80vw] mx-[10vw] md:mx-0 md:w-[400px] mt-[20vh] md:mt-5">
+    <div
+      className="flex justify-center items-center min-h-fit"
+      role="main"
+      aria-label="Authentication Section"
+    >
+      <div
+        className="w-[80vw] mx-[10vw] md:mx-0 md:w-[400px] mt-[20vh] md:mt-5"
+        aria-live="polite"
+      >
         {/* Custom Tabs (Login/Signup) */}
-        <div className="flex h-[40px] justify-center items-center mb-4 bg-gray-200 rounded-[10px]">
+        <div
+          className="flex h-[40px] justify-center items-center mb-4 bg-gray-200 rounded-[10px]"
+          role="tablist"
+          aria-label="Authentication Tabs"
+        >
           <button
-            className={`w-[195px] h-[30px] flex justify-center items-center p-2 rounded-[7px] shadow-[10px] shadow-neutral-600 ${!isSignup ? "bg-white text-black" : "bg-gray-200 text-slate-600"}`}
+            role="tab"
+            aria-selected={!isSignup}
+            aria-controls="login-panel"
+            id="login-tab"
+            className={`w-[195px] h-[30px] flex justify-center items-center p-2 rounded-[7px] shadow-[10px] shadow-neutral-600 ${
+              !isSignup ? "bg-white text-black" : "bg-gray-200 text-slate-600"
+            }`}
             onClick={() => setIsSignup(false)}
           >
             Login
           </button>
           <button
-            className={`w-[195px] h-[30px] flex justify-center items-center p-2 rounded-[7px] shadow-[10px] shadow-neutral-600 ${isSignup ? "bg-white text-black" : "bg-gray-200 text-slate-600"}`}
+            role="tab"
+            aria-selected={isSignup}
+            aria-controls="signup-panel"
+            id="signup-tab"
+            className={`w-[195px] h-[30px] flex justify-center items-center p-2 rounded-[7px] shadow-[10px] shadow-neutral-600 ${
+              isSignup ? "bg-white text-black" : "bg-gray-200 text-slate-600"
+            }`}
             onClick={() => setIsSignup(true)}
           >
             Sign Up
@@ -112,7 +134,7 @@ export default function AuthPage() {
 
         {/* Login Form */}
         {!isSignup && (
-          <Card>
+          <Card role="tabpanel" aria-labelledby="login-tab" id="login-panel">
             <CardHeader>
               <CardTitle>Login</CardTitle>
               <CardDescription>Sign in to your account</CardDescription>
@@ -120,27 +142,47 @@ export default function AuthPage() {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" type="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
             </CardContent>
             <CardFooter>
-            <NeumorphButton className="w-full" onClick={handleAuth} disabled={loading}>
-  <div className="flex items-center justify-center gap-3">
-    <span>Login</span>
-    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" strokeWidth={2} />}
-  </div>
-</NeumorphButton>
+              <NeumorphButton
+                className="w-full"
+                onClick={handleAuth}
+                disabled={loading}
+                aria-label="Login to your account"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <span>Login</span>
+                  {loading && (
+                    <Loader2
+                      className="mr-2 h-4 w-4 animate-spin"
+                      strokeWidth={2}
+                    />
+                  )}
+                </div>
+              </NeumorphButton>
             </CardFooter>
           </Card>
         )}
 
         {/* Signup Form */}
         {isSignup && (
-          <Card>
+          <Card role="tabpanel" aria-labelledby="signup-tab" id="signup-panel">
             <CardHeader>
               <CardTitle>Sign Up</CardTitle>
               <CardDescription>Create a new account</CardDescription>
@@ -148,37 +190,74 @@ export default function AuthPage() {
             <CardContent className="space-y-2">
               <div className="space-y-1">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <Input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="email-signup">Email</Label>
-                <Input id="email-signup" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <Input
+                  id="email-signup"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="password-signup">Password</Label>
-                <Input id="password-signup" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <Input
+                  id="password-signup"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
               <div className="space-y-1">
                 <Label htmlFor="phone">Phone</Label>
-                <Input id="phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
               </div>
-
-              {/* Profile Picture Upload */}
               <div className="space-y-1">
                 <Label htmlFor="profilePic">Profile Picture</Label>
-                <Input id="profilePic" type="file" accept="image/*" onChange={handleImageChange} />
+                <Input
+                  id="profilePic"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
                 {preview && (
-                  <img src={preview} alt="Profile Preview" className="mt-2 w-24 h-24 rounded-full object-cover" />
+                  <img
+                    src={preview}
+                    alt="Profile preview"
+                    className="mt-2 w-24 h-24 rounded-full object-cover"
+                  />
                 )}
               </div>
             </CardContent>
             <CardFooter>
-            <NeumorphButton className="w-full" onClick={handleAuth} disabled={loading}>
-  <div className="flex items-center justify-center gap-3">
-    <span>Sign Up</span>
-    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" strokeWidth={2} />}
-  </div>
-</NeumorphButton>
+              <NeumorphButton
+                className="w-full"
+                onClick={handleAuth}
+                disabled={loading}
+                aria-label="Create a new account"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <span>Sign Up</span>
+                  {loading && (
+                    <Loader2
+                      className="mr-2 h-4 w-4 animate-spin"
+                      strokeWidth={2}
+                    />
+                  )}
+                </div>
+              </NeumorphButton>
             </CardFooter>
           </Card>
         )}

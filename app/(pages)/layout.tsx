@@ -45,15 +45,25 @@ export default function Layout({ children }: React.PropsWithChildren) {
   return (
     <>
       <Menu />
-      <div className="flex flex-col items-center justify-start min-h-screen font-[family-name:var(--font-geist-sans)] mx-auto border-gray-200 p-6">
+
+      <div
+        className="flex flex-col items-center justify-start min-h-screen font-[family-name:var(--font-geist-sans)] mx-auto border-gray-200 p-6"
+        role="main"
+        aria-label="Main page content"
+      >
+        {/* User Avatar or Login */}
         <div className="absolute md:right-8 right-1 top-8">
           {user ? (
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex justify-between items-center md:px-4 md:py-2 px-1 py-0 md:static absolute top-[1vh] left-[1vw] rounded-md shadow-lg bg-amber-50 border border-gray-300 hover:shadow-xl transition-shadow">
+              <DropdownMenuTrigger
+                className="flex justify-between items-center md:px-4 md:py-2 px-1 py-0 md:static absolute top-[1vh] left-[1vw] rounded-md shadow-lg bg-amber-50 border border-gray-300 hover:shadow-xl transition-shadow"
+                aria-label="User menu"
+                aria-haspopup="menu"
+              >
                 <Avatar>
                   <AvatarImage
                     src={imageSrc ? imageSrc : "/images/profile-user.png"}
-                    alt="Profile"
+                    alt="User profile picture"
                   />
                 </Avatar>
                 &nbsp;
@@ -61,19 +71,26 @@ export default function Layout({ children }: React.PropsWithChildren) {
                   ? `${user.username.slice(0, 1)}...`
                   : user.username}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-amber-50">
+
+              <DropdownMenuContent
+                className="bg-amber-50"
+                aria-label="User dropdown options"
+              >
                 <DropdownMenuItem asChild>
-                  <Link href="/profile">Profile</Link>
+                  <Link href="/profile" aria-label="Go to profile page">
+                    Profile
+                  </Link>
                 </DropdownMenuItem>
-                {/* <DropdownMenuItem>Payment Methods</DropdownMenuItem> */}
-                <DropdownMenuItem onClick={handleLogout}>
+                <DropdownMenuItem
+                  onClick={handleLogout}
+                  aria-label="Logout from account"
+                >
                   Logout
-                </DropdownMenuItem>{" "}
-                {/* Logout action */}
+                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link href="/login">
+            <Link href="/login" aria-label="Go to login page">
               <Button
                 variant="outline"
                 className="relative bg-amber-50 cursor-pointer px-2 md:px-8 md:py-8 rounded-xl shadow-2xl border-pink-600 border-2 group overflow-hidden hover:text-amber-50 transition-all duration-150"
@@ -84,9 +101,13 @@ export default function Layout({ children }: React.PropsWithChildren) {
             </Link>
           )}
         </div>
-        <Link href="/home">
+
+        {/* Title link to homepage */}
+        <Link href="/home" aria-label="Return to homepage">
           <Title />
         </Link>
+
+        {/* Main page content */}
         {children}
       </div>
     </>
